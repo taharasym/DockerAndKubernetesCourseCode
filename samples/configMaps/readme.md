@@ -1,9 +1,28 @@
 ## Techniques for working with ConfigMaps
 
-1. Using a k8s ConfigMap manifest:  `kubectl create -f settings.configmap.yml`
-2. Load settings from a file: `kubectl create cm app-settings --from-file=settings.properties`. Will add file name as key into ConfigMap data. Will NOT add quotes around non-string values.
-3. Load settings from an env file: `kubectl create cm app-settings --from-env-file=settings.config`. Will NOT add file name as key into ConfigMap data. Will add quotes around non-string values.
-4. Define settings in kubectl command: `kubectl create cm app-settings --from-literal=apiUurl=https://my-api  --from-literal=otherKey=otherValue --from-literal=count=50`. Will add quotes around non-string values.
+1. Using a k8s ConfigMap manifest:  
+
+`kubectl create -f settings.configmap.yml`
+
+2. Load settings from a file: 
+
+`kubectl create cm app-settings --from-file=settings.properties`
+
+Will add file name as key into ConfigMap data. Will NOT add quotes around non-string values.
+
+3. Load settings from an env file: 
+
+`kubectl create cm app-settings --from-env-file=settings.env`
+
+Will NOT add file name as key into ConfigMap data. Will add quotes around non-string values.
+
+4. Define settings in kubectl command:
+
+```bash
+kubectl create cm app-settings --from-literal=apiUrl=https://my-api  --from-literal=otherKey=otherValue --from-literal=count=50
+```
+
+Will add quotes around non-string values.
 
 ## To Run Node Server and Access ConfigMap Data
 
@@ -16,7 +35,7 @@ Demo of accessing ConfigMap data in a Pod container through environment variable
 2. Build image: `docker build -t node-configmap .`
 3. Create ConfigMap: 
 
-`kubectl create cm app-settings --from-env-file=settings.config`
+`kubectl create cm app-settings --from-env-file=settings.env`
 
 4. Create deployment: 
 
@@ -26,7 +45,7 @@ Demo of accessing ConfigMap data in a Pod container through environment variable
 
 `kubectl port-forward [pod-name] 9000`
 
-6. Visit `http://localhost:9000` and view the ConfigMap settings output
+6. `curl http://localhost:9000` and view the ConfigMap settings output
 
 
 

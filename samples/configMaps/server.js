@@ -7,12 +7,11 @@ const handler = (request, response) => {
         console.log(err);
         return;
     }
-    else {
-      response.writeHead(200, {"Content-Type": "text/html"});
-      response.write("'ENEMIES' (from env variable): " + process.env.ENEMIES + '<br />');
-      response.write("'enemies.cheat.level' (from volume): " + fileData);
-      response.end();
-    }
+    
+    response.writeHead(200, {"Content-Type": "text/html"});
+    response.write("'ENEMIES' (from env variable): " + process.env.ENEMIES + '<br />');
+    response.write("'enemies.cheat.level' (from volume): " + fileData);
+    response.end();
   });
 };
 
