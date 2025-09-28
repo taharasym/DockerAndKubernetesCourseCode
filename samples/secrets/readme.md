@@ -5,18 +5,23 @@ only use the local-storage option, however in cloud scenarios the SC/PVC could b
 
 ## Running the MongoDB Deployment
 
+**IMPORTANT**: PersistentVolumes and MongoDB have had problems in the past on **Windows Docker Desktop** so ensure you have the latest updates for Windows and Docker Desktop. The steps are being shown here for completeness, but you may have to experiment on your own depending upon your Windows version and system setup.
+
 1. Create the following folder structure on your local system:
 
-    Mac/Linux: `/tmp/data/db`
-    Windows:   `c:/temp/data/db`
+    - **Mac (latest):** `/private/tmp/data/db`
 
-    If you’re running Docker Desktop Kubernetes on **Windows**, update the `PersistentVolume` definition:
+    - **Windows:**   `c:/temp/data/db`
 
-    - **Native Windows backend (Hyper-V/VM):**  
-    Set the `hostPath` path to `/run/desktop/mnt/host/c/temp/data/db`.
+    - **Linux:** `/tmp/data/db`
 
-    - **WSL2 backend:**  
-        Set the `hostPath` path to `/mnt/c/temp/data/db`
+2. Edit the `mongo.deployment.yml` and change the PVs local `path` to the folder path above based on your use case and operating system.
+
+    - **Mac (latest):** `/private/tmp/data/db`
+
+    - **Windows:**   `/run/desktop/mnt/host/c/temp/data/db`
+
+    - **Linux:** `/tmp/data/db`
 
 3. Run the following to add the database passwords as secrets:
 
