@@ -18,7 +18,7 @@
 1. Change the image version in `nginx.deployment.yml` to the one shown in the comment right next to it. Save the file.
 1. Run the following command to apply the new Deployment:
 
-    `kubectl apply -f nginx.deployment.yml --record`
+    `kubectl apply -f nginx.deployment.yml`
 
 1. Go back and check the curl commands being made by the script and you should see no interuption in the service. This demonstrates a Rolling Deployment in action.
 1. Check the Deployment status by running the following:
