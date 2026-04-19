@@ -9,7 +9,7 @@ services:
       context: ./stable-app
       dockerfile: dockerfile
     ports:
-     - 9000:80
+     - 9000:8080
     
 
   canary:
@@ -19,4 +19,4 @@ services:
       context: ./canary-app
       dockerfile: dockerfile
     ports:
-     - 9001:80
+     - 9001:8080
