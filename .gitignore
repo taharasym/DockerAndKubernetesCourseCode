@@ -1,6 +1,60 @@
 # Created by https://www.toptal.com/developers/gitignore/api/intellij+all,netbeans,eclipse,visualstudiocode,macos,node,angular,helm
 # Edit at https://www.toptal.com/developers/gitignore?templates=intellij+all,netbeans,eclipse,visualstudiocode,macos,node,angular,helm
 
+### .NET ###
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+*.[Cc]ache
+*.ilk
+*.meta
+*.obj
+*.iobj
+*.pch
+*.pdb
+*.ipdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp_proj
+*_wpftmp.csproj
+*.vspscc
+*.vssscc
+
+# .NET publish output
+publish/
+
+# NuGet
+**/[Pp]ackages/*
+*.nupkg
+*.snupkg
+**/NuGet.Config
+**/nuget.config
+.nuget/
+
+# ASP.NET client-side vendor libraries (restored via libman)
+**/wwwroot/lib/
+
 ### Angular ###
 ## Angular ##
 # compiled output
