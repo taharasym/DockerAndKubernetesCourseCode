@@ -3,7 +3,7 @@
 Note that Docker Desktop must be installed and running (Kubernetes support must also be enabled) or another Kubernetes option such as Minikube can be used.
 
 1. `cd` into the root of this folder in a command window
-1. Run `docker-compose build` to build the images that will be used for Blue-Green testing
+1. Run `docker compose build` to build the images that will be used for Blue-Green testing
 1. Run the following commands based on your OS
 
     ### Mac/Linux
