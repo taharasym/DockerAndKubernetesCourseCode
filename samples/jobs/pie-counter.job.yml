@@ -17,4 +17,5 @@ spec:
         command:
          - "sh"
          - "-c"
+         # calculate π (pi) to 1000 decimal places using the bc arbitrary-precision calculator
          - "echo 'scale=1000; 4*a(1)' | bc -l;sleep 2;"
