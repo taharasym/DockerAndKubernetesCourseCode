@@ -1,0 +1,76 @@
+Creating a Deployment
+
+Also the same as the pod yaml file with extra stuff
+
+apiversion: has a leading apps instead of v1 so app/v1
+
+metadata about the deployment
+spec
+  selector
+    matchLabels  <== match the label
+
+livenessProbe
+readnessProbe
+
+kubectl commands with deployments
+
+k create -f nginx.deployment.yml --save-config
+
+k describe [pod | deployment] [pod-name | deployment-name]
+
+k apply -f nginx.deployment.yml
+
+k get deployments --show-labels
+
+k get deployments -l app=my-nginx
+
+k scale -f nginx.deployment.yml --replicas=
+
+k scale deployment [deployment-name] --replicas=4
+
+
+sample deployment commands
+
+k apply -f ../deployments/nginx.deployment.yml 
+
+
+k get all
+NAME                           READY   STATUS    RESTARTS      AGE
+pod/my-nginx                   1/1     Running   1 (54m ago)   92m
+pod/my-nginx-67db796c4-9kjb9   1/1     Running   0             20s
+pod/my-nginx-67db796c4-cl9g5   1/1     Running   0             20s
+
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   6h14m
+
+NAME                       READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/my-nginx   2/2     2            2           20s
+
+NAME                                 DESIRED   CURRENT   READY   AGE
+replicaset.apps/my-nginx-67db796c4   2         2         2       20s
+
+taharasym@A306245L MINGW64 ~/repo/kubernetes/DockerAndKubernetesCourseCode/samples/pods (main)
+
+
+# update the deployment yml to 4 replicas
+
+k get all
+NAME                           READY   STATUS    RESTARTS      AGE
+pod/my-nginx                   1/1     Running   1 (57m ago)   95m
+pod/my-nginx-67db796c4-9kjb9   1/1     Running   0             2m55s
+pod/my-nginx-67db796c4-cl9g5   1/1     Running   0             2m55s
+pod/my-nginx-67db796c4-tsqz9   1/1     Running   0             9s
+pod/my-nginx-67db796c4-wfqvq   1/1     Running   0             9s
+
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   6h16m
+
+NAME                       READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/my-nginx   4/4     4            4           2m55s
+
+NAME                                 DESIRED   CURRENT   READY   AGE
+replicaset.apps/my-nginx-67db796c4   4         4         4       2m55s
+
+
+k delete -f ../deployments/nginx.deployment.yml 
+

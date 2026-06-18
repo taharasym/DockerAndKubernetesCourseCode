@@ -1,0 +1,188 @@
+Blue-green deployments
+
+- so only the internal employees can hit the updated version of the container 
+
+
+        	---------------------------------------------------------------------------------------------
+             	|                                                                                            |
+             	|                              ConfigMaps/Secrets/Storage                                    |
+            	|---------------------------------------------------------------------------------------------
+                                         
+-------------	 ----------Node----------           ----------Node-------               ----------Node------- 
+|	     |  |                       |          |                    |               |                    |   
+|	     |	|                       |          |                    |               |                    |
+|	     |	|        Pod            |          |      Pod           |               |      Pod           | 
+|            |  |                       |          |                    |               |                    |
+| Deployment |  |                       |          |                    |               |                    |	
+|	     |	|                       |          |                    |               |                    |
+|            |  | 
+| ReplicaSet | 	|    Container          |          |   Container        |               |   Container        |
+|	     |  |                       |          |                    |               |                    |
+--------------	-------------------------          ----------------------               ----------------------
+
+        	---------------------------------------------------------------------------------------------
+             	|                                                                                            |
+             	|                                      Service                                               |
+            	|---------------------------------------------------------------------------------------------
+
+
+A blue-green deployment is a change management strategy for releasing software code. Blue/green deployments, which 
+may also be referred to as A/B deployments require two identical hardware environments that are configured exactly the 
+same way. While one environment is active and serving end users, the other environment remains idle.
+
+          Blue-green
+         Deployments                  Strategy for checking the viability of a deployment before it's publicly available
+                                      You or your team is the only one that can hit the green app.
+
+                                      New application (green) is deployed alongside the old application(blue)
+       |                 |                  
+       |                 |           
+  -----------       -----------
+  |Blue Test |      |Green Test|          
+  |  Service |      |  service | 
+  -----------       ------------ 
+       |                 |
+       |                 |
+   -----------      ----------- 
+   | Blue App |     | Green App|
+   ------------     ------------
+
+
+1. Create BLUE Deployment and Services
+
+
+  -----------       -----------
+  |Blue Test |      | Public   |          
+  |  Service |      |  service | 
+  -------|---       --|--------- 
+       | |  __________|   |
+       | |_|__________    |
+   ----|---|--      --|---|---- 
+   |   Pod    |     |    Pod   |
+   |  app-v1  |     |   app-v1 | 
+   ------------     ------------
+
+   -----------------------------
+   |     Deployment             |
+   | Pod Template: app-v1       |
+   ------------------------------ 
+
+2. Create GREEN Deployment and Services - need to have the cpu and memory to do this
+               
+              App V1                              App V2
+
+        
+  -----------       -----------                                ------------
+  |Blue Test |      |  Public  |                               | Green Test|
+  |  Service |      |  service |                               |   Service |
+  -----------       ------------                               ------------- 
+       |  |__________  |  |                                      |   |
+       |     ________|_|__|                            __________|   |
+  -----|----|-       |-|--------              ---------|-       -----|----
+  |   Pod    |      |   Pod    |              |   Pod    |      |   Pod   |  
+  |  app-v1  |      |  app-v1  |              |  app-v2  |      |  app-v2 | 
+  -----------       ------------              ------------      -----------
+ 
+  ------------------------------              ------------------------------
+  |        Deployment           |             |         Deployment          |   
+  |   Pod Template: app-v1      |             |  Pod Template: app-v2       |
+  -------------------------------             -------------------------------
+
+
+
+
+3. Test GREEN Pods
+
+
+              App V1                              App V2
+
+        
+  -----------       -----------                                ------------
+  |Blue Test |      |  Public  |                               | Green Test|
+  |  Service |      |  service |                               |   Service | <============ developer testing
+  -----------       ------------                               ------------- 
+       |  |__________  |  |                                      |   |
+       |     ________|_|__|                            __________|   |
+  -----|----|-       |-|--------              ---------|-       -----|----
+  |   Pod    |      |   Pod    |              |   Pod    |      |   Pod   |  
+  |  app-v1  |      |  app-v1  |              |  app-v2  |      |  app-v2 | 
+  -----------       ------------              ------------      -----------
+ 
+  ------------------------------              ------------------------------
+  |        Deployment           |             |         Deployment          |   
+  |   Pod Template: app-v1      |             |  Pod Template: app-v2       |
+  -------------------------------             -------------------------------
+
+
+4. Change public Service from BLUE to GREEN
+
+
+
+              App V1                              App V2
+
+        
+  -----------       -----------                                ------------
+  |Blue Test |      |  Public  |                               | Green Test|
+  |  Service |      |  service |                               |   Service |
+  -----------       ------|-----                               ------------- 
+       |  |__________  |  |--------------------------------------|-- |
+       |             | |____________________________   __________| | |
+  -----|------       |----------              ------|--|-       ---|-|----
+  |   Pod    |      |   Pod    |              |   Pod    |      |   Pod   |  
+  |  app-v1  |      |  app-v1  |              |  app-v2  |      |  app-v2 | 
+  -----------       ------------              ------------      -----------
+ 
+  ------------------------------              ------------------------------
+  |        Deployment           |             |         Deployment          |   
+  |   Pod Template: app-v1      |             |  Pod Template: app-v2       |
+  -------------------------------             -------------------------------
+
+
+5. Remove BLUE Deployment and Service - the magic is the services and labels 
+
+              App V2
+
+  -----------       -----------
+  |   Public |      |Green Test|          
+  |  Service |      |  service | 
+  -------|---       --|--------- 
+       | |  __________|   |
+       | |_|__________    |
+   ----|---|--      --|---|---- 
+   |   Pod    |     |    Pod   |
+   |  app-v2  |     |   app-v2 | 
+   ------------     ------------
+
+   -----------------------------
+   |     Deployment             |
+   | Pod Template: app-v2       |
+   ------------------------------ 
+
+
+Key Considerations
+
+- How many Pods are being deployed to each environment?
+- How much memory is required to run the Pods
+- What are the CPU requirements?
+- Other considerations(volumes, sessions, node affinity, etc.)
+
+
+
+
+Clean up 
+
+k get pods
+NAME                                      READY   STATUS      RESTARTS   AGE
+nginx-deployment-blue-5c49649cb5-57m96    1/1     Running     0          19h
+nginx-deployment-blue-5c49649cb5-wxvjd    1/1     Running     0          19h
+nginx-deployment-green-56d6886d9b-csm2r   1/1     Running     0          19h
+nginx-deployment-green-56d6886d9b-lnstx   1/1     Running     0          19h
+pie-counter-8gv48                         0/1     Completed   0          52m
+pie-counter-rdj5n                         0/1     Completed   0          51m
+pie-counter-vlfs9                         0/1     Completed   0          52m
+pie-counter-vzdlw                         0/1     Completed   0          51m
+
+taharasym@A306245L MINGW64 ~/repo/kubernetes/DockerAndKubernetesCourseCode/samples/jobs (main)
+$ k delete deployment nginx-deployment-blue nginx-deployment-green
+deployment.apps "nginx-deployment-blue" deleted from default namespace
+deployment.apps "nginx-deployment-green" deleted from default namespace

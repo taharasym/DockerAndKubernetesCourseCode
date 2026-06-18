@@ -1,0 +1,72 @@
+PersistentVolumes 
+
+PersistentVolumes, PersistentVolumesClaims and StorageClasses
+
+Normally setup by a Kubernetes Admin
+
+A PersistentVolume (PV) is a cluster-wide storate unit provisioned by an administrator
+with a lifecycle independent from a Pod, can be defined it once and reused. 
+
+A PersistentVolumeClaim (PVC) is a request for a storage unit(PV).
+
+
+PersistentVolume Workflow
+
+1. Create network storage resource (NFS, cloud, etc.)
+2. Define a Persistent Volume (PV) and send to the Kubernetes API  
+3. Create a PersistentVolumeClaim(PVC)
+4. Kubernetes binds the PVC to the PV
+5. Pod Volume references the PVC
+
+Now what this means is that you can used use this PV over and over, all you need to know the PVC
+
+
+
+|-------------|    |-----|
+|   Pod       |    |-----|
+|             | -->|-----|
+| |---------| |    |-----|
+| |Container| |      PVC
+| |_________| |       |
+ -------------        |
+                      |
+                   |-----|
+                   |-----|
+                   |-----|
+                   |-----|
+                     PV
+                      | 
+            ---------------------
+            |                    |
+          Storage                K8
+
+A StorageClass (SC) is a type of storage template that can be used dynamically provision storage - do this more or less on the fly
+
+
+StorageClass Workflow
+
+1. Create Storage Class
+2. Create PersistentVolumeClaim that references StorageClass
+3. Kubernetes uses StorageClass provisioner to provision a PersistenVolume
+4. Storage provisioned, PersistentVolume created and bound to PersistentVolumeClaim
+5. Pod Volume references PersistentVolumeClaim
+
+                      ---------------Bind to PVC -------- 
+                      |                                 |
+|-------------|    |-----|       |-----|                |
+|   Pod       |    |-----|       |-----| Pointed to     | 
+|             | -->|-----| ----> |-----|  template      |
+| |---------| |    |-----|       |-----|                |  
+| |Container| |      PVC            SC                  |
+| |_________| |                     |                   |
+ -------------                 PV Provisioner           | 
+                                    |                   |                     
+                                  |-----|               |
+                  Storage  <----  |-----| --------------|
+                                  |-----|
+                                  |-----|
+                                     PV
+
+                         
+
+

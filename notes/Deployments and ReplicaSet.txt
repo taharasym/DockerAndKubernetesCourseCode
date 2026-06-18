@@ -1,0 +1,22 @@
+Deployments and ReplicaSet
+
+A replica set is declarative way to manage Pods
+
+Deployments and ReplicaSets(scale the pods) ensure Pods stay running and can be used to scale Pods
+
+A Deployment manages pods
+ 
+- Pods ae managed using ReplicaSets
+- Scales ReplicaSets, which scale Pods
+- Support zero-downtime updates by creating and destroying ReplicaSets
+- Self-healing mechanism
+- Provide fault-tolerance
+- Provide rollback Functionality
+- Create a unique label that is assigned to the ReplicaSet and generate pods
+
+
+
+deployment
+ |_replicaSet
+    |_Pod
+      |_Container

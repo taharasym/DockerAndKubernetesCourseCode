@@ -1,0 +1,106 @@
+Rolling Update Deployment
+
+Deploy all the yaml file in the current directory
+
+k create -f ./ --save-config   <=== let us know what we started with
+
+1. Update the image to a newer image version and save
+
+  nginx:1.17.8-alpine 
+
+2. Run the curl command to see that there is no down time in another terminal, it will run 100 times
+
+  bash curl-loop.sh or sh curl-loop.sh
+
+2. Run the deployment
+
+ k apply -f nginx.deployment.yml 
+
+ deployment.apps/my-nginx configured
+
+
+3. View the status of the rollout
+
+ k rollout status deployment my-nginx
+
+4. Shell into one of the containers
+
+k get pod
+k describe pod my-nginx-66dd4b8769-6757l
+
+5. clean up
+
+k delete -f ./   <== this will run both the deploy and services yaml files
+
+
+NAME                        READY   STATUS    RESTARTS   AGE
+my-nginx-66dd4b8769-6757l   1/1     Running   0          110s
+my-nginx-66dd4b8769-h8r9z   1/1     Running   0          68s
+my-nginx-66dd4b8769-hccdl   1/1     Running   0          68s
+my-nginx-66dd4b8769-w8b8m   1/1     Running   0          112s
+
+taharasym@A306245L MINGW64 ~/repo/kubernetes/DockerAndKubernetesCourseCode/samples/rolling-update (main)
+$ k describe pod my-nginx-66dd4b8769-6757l
+Name:             my-nginx-66dd4b8769-6757l
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             docker-desktop/192.168.65.3
+Start Time:       Thu, 11 Jun 2026 08:42:50 -0500
+Labels:           app=my-nginx
+                  pod-template-hash=66dd4b8769
+Annotations:      <none>
+Status:           Running
+IP:               10.1.0.76
+IPs:
+  IP:           10.1.0.76
+Controlled By:  ReplicaSet/my-nginx-66dd4b8769
+Containers:
+  my-nginx:
+    Container ID:   docker://250436ea468492f53ff8e4818ff1f3196e281085edf52591b58b3c1d268d5ab6
+    Image:          nginx:1.17.8-alpine
+    Image ID:       docker-pullable://nginx@sha256:9e81b8f9cef5a095f892183688798a5b2c368663276aa0f2be4b1cd283ace53d
+    Port:           80/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Thu, 11 Jun 2026 08:43:26 -0500
+    Ready:          True
+    Restart Count:  0
+    Limits:
+      cpu:     200m
+      memory:  128Mi
+    Requests:
+      cpu:        100m
+      memory:     64Mi
+    Environment:  <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-r649c (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True 
+  Initialized                 True 
+  Ready                       True 
+  ContainersReady             True 
+  PodScheduled                True 
+Volumes:
+  kube-api-access-r649c:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    Optional:                false
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age   From               Message
+  ----    ------     ----  ----               -------
+  Normal  Scheduled  21m   default-scheduler  Successfully assigned default/my-nginx-66dd4b8769-6757l to docker-desktop
+  Normal  Pulling    20m   kubelet            Pulling image "nginx:1.17.8-alpine"
+  Normal  Pulled     20m   kubelet            Successfully pulled image "nginx:1.17.8-alpine" in 2.701s (29.098s including waiting). Image size: 21783108 bytes.
+  Normal  Created    20m   kubelet            Created container: my-nginx
+  Normal  Started    20m   kubelet            Started container my-nginx
+
+taharasym@A306245L MINGW64 ~/repo/kubernetes/DockerAndKubernetesCourseCode/samples/rolling-update (main)
+

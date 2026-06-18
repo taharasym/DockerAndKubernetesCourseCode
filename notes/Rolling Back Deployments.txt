@@ -1,0 +1,42 @@
+Rolling Back Deployments
+
+
+Rolling update revisions can be tracked
+
+If a Deployment has issue, a new Deployment can be applied, or you can revert to a previous revision
+
+Several kubectl commands can be used for rollbacks
+
+- k rollout status -f file.deployment.yml
+- k rollout history 
+- k rollout undo -f file.deployment.yml <=== rollback to the previous deployment
+
+# Get information about a Deployment
+k rollout history deployment [deployment-name]
+
+# Get information about a Deployment
+k rollout history deployment [deployment-name] --revision=2 <=== jump back to a history item or back multiple versions
+
+
+Some companies don't roll back and just fix the issue instead of rolling back
+
+
+k rollout history deployment my-nginx
+
+deployment.apps/my-nginx 
+REVISION  CHANGE-CAUSE
+1         <none>
+2         <none>
+
+
+k rollout undo deployment my-nginx
+
+deployment.apps/my-nginx rolled back
+
+# ok what's in
+k get pods
+NAME                        READY   STATUS    RESTARTS   AGE
+my-nginx-66dd4b8769-g52wr   1/1     Running   0          2m1s
+my-nginx-66dd4b8769-m4pzr   1/1     Running   0          2m1s
+my-nginx-66dd4b8769-ntts4   1/1     Running   0          116s
+my-nginx-66dd4b8769-zz992   1/1     Running   0          115s

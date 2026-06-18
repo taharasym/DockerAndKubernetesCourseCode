@@ -1,0 +1,70 @@
+Pods - host for containers
+
+Pod creation
+
+A Pod is the basic execution unit of a Kubernetes application 
+- the smallest and simplest unit in the Kubernetes object model that you create or deploy
+
+The Role of Pods is to run containers on Nodes, we can have multiple nodes, on each node we can have multiple pods, each pod can have one or more containers
+
+Scales horizontally by adding Pod replicas
+
+Environment for containers
+
+ - Organize application parts into pods : server, caching, API's, database, etc.
+
+ - Pod own cluster IP address only available internally to that Kubernetes cluster , own memory, own volumes/storage, etc. shared across containers, self-sufficient
+
+ - Pods live and die but never come back to life, redirect from sick pods to health pods
+
+ - Pods do not span nodes
+
+================================================================
+  THE ROLE OF PODS - Kubernetes Concepts
+================================================================
+
+  A Node is the outermost unit — it represents a physical or
+  virtual machine in a Kubernetes cluster.
+
+  Inside the Node, there are 3 Pods running side by side.
+  Each Pod contains one Container.
+
+  STRUCTURE:
+  - Pod 1  -->  contains  -->  Container
+  - Pod 2  -->  contains  -->  Container
+  - Pod 3  -->  contains  -->  Container
+
+----------------------------------------------------------------
+  HIERARCHY:
+
+  Node
+  ├── Pod 1
+  │     └── Container
+  ├── Pod 2
+  │     └── Container
+  └── Pod 3
+        └── Container
+
+----------------------------------------------------------------
+  KEY CONCEPTS:
+
+  Node      - A physical or virtual machine in the cluster
+  Pod       - Smallest deployable unit in Kubernetes
+              Wraps one or more Containers
+  Container - Runs the actual application workload
+              Shares network and storage within the Pod
+
+----------------------------------------------------------------
+  HIERARCHY SUMMARY:
+
+  Node  >  Pod  >  Container
+
+================================================================
+
+k get pods
+k get all
+                             external port
+k port-forward [name of pod] 8080:80  internal port <== service better way
+k delete pod [name of pod] example k delete pod/my-nynix
+k delete deployment [name-of-deployment
+

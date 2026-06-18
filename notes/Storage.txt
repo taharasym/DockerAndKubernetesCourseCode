@@ -1,0 +1,57 @@
+Storage
+
+     ------------------------------------------------------------------------
+   |  ---------------------------------------------------------------------  |
+   | |									  |  | 
+   | |									  |  |
+   | |									  |  |
+   | |			  Storage					  |  |
+   | |									  |  | 
+   | |									  |  |
+   | |									  |  |
+   | |									  |  |
+   | ----------------------------------------------------------------------  |
+   | -----------------         ------------------       -------------------  | 
+   | |                |        |                 |      |                 |  |
+   | |                |        |                 |      |                 |  |  
+   | |     Pod        |        |      Pod        |      |      Pod        |  |
+   | |   ----------   |        |   -----------   |      |   -----------   |  |
+   | |  |          |  |        |  |           |  |      |  |           |  |  |
+   | |  |          |  |        |  |           |  |      |  |           |  |  |
+   | |  | Container|  |        |  | Container |  |      |  | Container |  |  |
+   | |  -----------   |        |  -------------  |      |  -------------  |  |
+   | ------------------        -------------------      ------------------   |
+   --------------------------------------------------------------------------
+
+
+- Azure
+- AWS 
+- S3
+
+
+How do you store application state/data and exchange it between Pods in Kubernetes?
+
+Volumes(although other data storage options exist)
+
+A Volume can be used to hold data and state for Pods and containers.
+
+- a volume mount/bind between the container and the host
+
+
+
+
+Pod State and Data
+
+    -----------------       
+    |                |       
+    |                |       
+    |     Pod        |    - Pods live and die so their file system is short-lived (ephemeral)
+    |   ----------   |    - Volumes can be used to store state/data and use it in a Pod
+    |  |          |  |    - A Pod can have multiple Volumes attached to it
+    |  |          |  |    - Containers rely on a mountPath to access a Volume
+    |  | Container|  |      
+    |  -----------   |      Kubernetes supports:  
+    ------------------       - Volumes    
+            |                - PersistentVolumes
+         Volume              - PersistentVolumeClaims
+                             - StorageClasses

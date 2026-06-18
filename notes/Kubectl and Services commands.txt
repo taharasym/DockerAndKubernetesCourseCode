@@ -1,0 +1,26 @@
+Kubectl and Services commands
+
+k create -f file.service.yml --save-config
+k apply -f file.service.yml
+k delete -f file.service.yml
+
+Testing a Service and Pod with curl
+
+k exec [pod-name] -- curl -s http://podIP
+
+Not every image will have a curl command so you can shell into the container
+
+k exec [pod-name] -it -- sh
+apk add curl
+curl -s http://podIP
+
+
+Service are like a gateway into pods
+
+
+k apply -f clusterIP.service.yml
+
+
+
+
+

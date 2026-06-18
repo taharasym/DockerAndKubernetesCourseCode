@@ -1,0 +1,84 @@
+Create Canary Deployment
+
+pods and image will be different, the number of replicas is say only 1
+
+The real magic here is the yaml files and the labels
+
+    -------------
+    |  Service   |
+    --------------
+          /\                 A Canary Deployment involves 3 main Kubernetes resources:
+         /  \                - Service 
+        /    \               - Stable Deployment
+       /      \              - Canary Deployment
+  ---------   ---------
+  | Stable |  | Stable |
+  ----------  ----------
+
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: stable-service
+  labels:
+    app: customers
+spec:
+  type: LoadBalancer
+  selector:
+    app: customers    <======== Pod label to select for Service
+  ports:
+   - port: 80
+     target: 80
+
+
+k get pods
+
+# so we forget to get rid of my-nginx pods so need to delete the deployment and the service
+k delete -f ../rolling-update/
+deployment.apps "my-nginx" deleted from default namespace
+service "nginx-service" deleted from default namespace
+
+NAME                                 READY   STATUS    RESTARTS   AGE
+canary-deployment-7f85c5b9dd-ddwsv   1/1     Running   0          74s
+my-nginx-675f46697c-7gj7n            1/1     Running   0          60m
+my-nginx-675f46697c-qdwjb            1/1     Running   0          60m
+my-nginx-675f46697c-rpxhq            1/1     Running   0          60m
+my-nginx-675f46697c-vtjrx            1/1     Running   0          60m
+stable-deployment-776cf66c5-hfwvb    1/1     Running   0          74s
+stable-deployment-776cf66c5-lrdr4    1/1     Running   0          74s
+stable-deployment-776cf66c5-vpb4z    1/1     Running   0          74s
+stable-deployment-776cf66c5-zgf6h    1/1     Running   0          74s
+
+
+# now we should only have canary and stable deployments
+
+k get pods
+
+NAME                                 READY   STATUS    RESTARTS   AGE
+canary-deployment-7f85c5b9dd-ddwsv   1/1     Running   0          5m49s
+stable-deployment-776cf66c5-hfwvb    1/1     Running   0          5m49s
+stable-deployment-776cf66c5-lrdr4    1/1     Running   0          5m49s
+stable-deployment-776cf66c5-vpb4z    1/1     Running   0          5m49s
+stable-deployment-776cf66c5-zgf6h    1/1     Running   0          5m49s
+
+
+k get services
+
+NAME             TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+kubernetes       ClusterIP      10.96.0.1       <none>        443/TCP        3d4h
+stable-service   LoadBalancer   10.107.31.240   localhost     80:31942/TCP   6m30s
+
+How do we know its work correctly, we have a ping shell script to show us the load being balanced
+
+sh curl-loop.sh
+
+ignore the error for the clean up
+
+k delete -f ./
+
+
+deployment.apps "canary-deployment" deleted from default namespace
+deployment.apps "stable-deployment" deleted from default namespace
+service "stable-service" deleted from default namespace
+error: unable to decode "docker-compose.yml": Object 'Kind' is missing in '{"services":{"canary":{"build":{"context":"./canary-app","dockerfile":"dockerfile"},"container_name":"canary-app","image":"canary-app","ports":["9001:8080"]},"stable":{"build":{"context":"./stable-app","dockerfile":"dockerfile"},"container_name":"stable-app","image":"stable-app","ports":["9000:8080"]}},"version":"3.7"}'
+

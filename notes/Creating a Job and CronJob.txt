@@ -1,0 +1,135 @@
+Creating a Job and CronJob     
+
+Job 
+
+apiVersion: batch/v1           <==== Batch API
+kind: Job                      <==== Job Kind
+metadata:
+  name: pie-counter
+spec:
+  completions: 4  <== completions to be successful in order for the job as a whole to be successful, require 4 successful pod runs
+  parallelism: 2  <== how many pods needs to run at the same time, 2 Pods can run in parallel at a time
+  template:
+    metadata:
+      name: pie-counter
+    spec:
+      restartPolicy: Never      <==== Never try to restart(Never or OnFailure) -- if it fail it would try to restart the job OnFailure
+      containers:
+      - name: pie-counter
+        image: alpine
+        command:               <===== Job command to run   
+        - "sh"
+        - "-c"
+        - "echo 'scale=1000; 4*a(1)' ...;"
+
+
+# Create a new Job
+k create -f file.job.yml --save-config
+k apply -f pie-counter.job.yml 
+
+# Creating or modifying a Job
+k apply -f file.job.yml
+
+Creating a Job
+A job can be created using the standard kubectl or kubectl apply commands
+
+
+
+k get pods
+NAME                READY   STATUS      RESTARTS   AGE
+pie-counter-bs57n   0/1     Completed   0          60s
+pie-counter-hrdgf   0/1     Completed   0          78s
+pie-counter-st8dx   0/1     Completed   0          56s
+pie-counter-xp9lf   0/1     Completed   0          78s
+
+taharasym@A306245L MINGW64 ~/repo/kubernetes/DockerAndKubernetesCourseCode/samples/jobs (main)
+$ k get jobs
+NAME          STATUS     COMPLETIONS   DURATION   AGE
+pie-counter   Complete   4/4           39s        103s
+
+taharasym@A306245L MINGW64 ~/repo/kubernetes/DockerAndKubernetesCourseCode/samples/jobs (main)
+$ k delete -f pie-counter.job.yml 
+job.batch "pie-counter" deleted from default namespace
+
+
+
+
+
+
+apiVersion: batch/v1           <==== CronJob batch API
+kind: CronJob                  <==== CronJob Kind
+metadata:
+  name: pie-counter
+spec:
+  concurrencyPolicy: Allow     <==== Allow multiple Pods to run even if their scheduling overlaps
+  # Run the job every minute
+  schedule "*/1 * * * *"       <==== Cron format to use for scheduling, its going to run every minute
+  jobTemplate:
+    spec:
+      template:
+        template
+          spec:
+            restartPolicy: OnFailure <=== Restart if there's a failure
+            containers:
+            - name: pie-counter
+              image: alpine
+              command:               <===== Command to run 
+              - "sh"
+              - "-c"
+              - "echo 'scale=1000; 4*a(1)' ...;"
+
+
+
+# Create a CronJob
+A job can be created using the standard k create or k apply commands
+k create -f file.cronjob.yml --save-config
+
+# Creating or modifying a Job
+k apply -f file.cronjob.yml
+
+
+k get pods
+NAME                         READY   STATUS      RESTARTS   AGE
+pie-counter-29696538-9pcbd   0/1     Completed   0          43s
+
+taharasym@A306245L MINGW64 ~/repo/kubernetes/DockerAndKubernetesCourseCode/samples/jobs (main)
+$ k get pods -w
+NAME                         READY   STATUS      RESTARTS   AGE
+pie-counter-29696538-9pcbd   0/1     Completed   0          89s
+pie-counter-29696539-t4jlb   0/1     Completed   0          29s
+pie-counter-29696540-29shp   0/1     Pending     0          0s
+pie-counter-29696540-29shp   0/1     Pending     0          0s
+pie-counter-29696540-29shp   0/1     ContainerCreating   0          0s
+pie-counter-29696540-29shp   1/1     Running             0          3s
+pie-counter-29696540-29shp   0/1     Completed           0          11s
+pie-counter-29696540-29shp   0/1     Completed           0          13s
+pie-counter-29696540-29shp   0/1     Completed           0          13s
+
+
+k get pods
+NAME                         READY   STATUS      RESTARTS   AGE
+pie-counter-29696538-9pcbd   0/1     Completed   0          3m11s
+pie-counter-29696539-t4jlb   0/1     Completed   0          2m11s
+pie-counter-29696540-29shp   0/1     Completed   0          71s
+pie-counter-29696541-ntbkw   1/1     Running     0          11s
+
+
+k get jobs
+NAME                   STATUS     COMPLETIONS   DURATION   AGE
+pie-counter-29696539   Complete   1/1           16s        2m46s
+pie-counter-29696540   Complete   1/1           13s        106s
+pie-counter-29696541   Complete   1/1           17s        46s
+
+
+Clean up 
+
+ k delete -f pie-counter.cronjob.yml 
+cronjob.batch "pie-counter" deleted from default namespace
+
+taharasym@A306245L MINGW64 ~/repo/kubernetes/DockerAndKubernetesCourseCode/samples/jobs (main)
+$ k get jobs
+No resources found in default namespace.
+
+taharasym@A306245L MINGW64 ~/repo/kubernetes/DockerAndKubernetesCourseCode/samples/jobs (main)
+$ k get pods
+No resources found in default namespace.

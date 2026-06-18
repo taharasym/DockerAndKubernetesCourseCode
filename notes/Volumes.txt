@@ -1,0 +1,34 @@
+Volumes
+
+Volumes and Volume Mounts
+
+     -----------------       
+    |                |       
+    |                |       - A volume references a storage location
+    |     Pod        |       - Must have a unique name 
+    |   ----------   |       - Attached to a Pod and may or may not be 
+    |  |          |  |         tied to the Pod's lifetime ( depending on the Volume type )
+    |  |          |  |       - A Volume Mount references a Volume by name and defines a mountPath
+    |  | Container|  |      
+    |  -----------   |      
+    ------------------         
+            |                
+         Volume  
+
+
+Volume Types allot of them
+
+- emptyDir : Empty directory for storing "transient" data (shares a Pod's lifetime)
+             Useful for sharing files between containers running in a Pod    
+
+- hostPath : Pod mounts into the node's filesystem, note nodes can crash
+
+- nfs      : nfs, an NFS(Network File System) share mounted into the Pod
+
+
+- configMap/secret : Special types of volumes that provide a Pod with access to Kubernetes resources
+
+- persistenVolumeClaim : Provides Pods with a more persistent storage option that is abstracted
+
+- Cloud    : Cluster-wide storage(gcps, azure, aws)
+

@@ -1,0 +1,72 @@
+Southwestern Power Pool
+
+A regional transmission organization in Little Rock, Arkansas.
+
+Responsible for operating the electric grid, managing wholesale electrify market and planning transmission across 14-states region in the Central US. 
+including AR, Oklahoma, Kansas, parts of Texas and much of the Midwest
+
+Mission : ensure reliable, affordable electricity across a rapidly growing and increasingly complex grid, rising demand from Al Datacenters, must be highly reliable, run 24/7, and support real-time decision-making for millions of customers
+
+DevOps terms: SPP is running a mission-critical, distributed, real-time platform where uptime, automation, observability and security are non-negotiable, their bread and butter.
+
+Grid operations software cannot fail
+DevOps ensures
+
+What they need. 
+DevOps leadership : modernize pipelines, automate infrastructure, strengthen cybersecurity, support high-availability systems that directly impact grid reliability.
+
+We use Terraform to build Confluent Cloud and Elastic resources. 
+Docker images deployed on Azure Container Apps to Azure Kubernetes System AKS 
+Productionized Confluent Cloud
+GitHub Actions - workflow 
+
+5 year Roadmap
+
+1. Grid Modernization 
+ - More real-time analytics
+ - Better forecasting models
+ - Integration of renewables and storage
+ - Transmission expansion
+
+- Automated CI/CD and testing
+- High availability SLA's 99.9999%
+- reliable pipelines
+- Immutable, version infrastructure
+- Zero-downtime deployments
+- Repeatable, auditable changes 
+- IaC, GitOps, monitoring
+
+
+SPP system include
+
+- Real-time grid monitoring
+- Market clearing engines
+- Transmission planning models
+- Forecasting Systems
+
+These require continuous integration, automated testing and reliable deployment pipelines
+
+Need 
+
+- infrastructure automation - terraform
+- Scalable Cloud/on-prem hybrid system
+- High-performance compute workflows - GitHub Actions
+
+Cybersecurity and compliance pressure
+
+- secure CI/CD
+- IoC with compliance
+- Automated patching and vulnerability
+
+Multi-team coordination
+
+SPP operating plan spans:
+
+- Operations
+- Engineering
+- Markets
+- Shared services(IT, cybersecurity, finance, human capital)
+
+DevOps Lead provided the glue between these groups
+
+

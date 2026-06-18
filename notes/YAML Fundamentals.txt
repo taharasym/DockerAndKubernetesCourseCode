@@ -1,0 +1,50 @@
+YAML Fundamentals 
+Indentation matter(be consistent!)
+Always use spaces
+Maps:
+  - name: value pairs
+  - Maps can contain other maps for more
+    complex data structures
+Lists:
+  - Sequence of items
+  - Multiple maps can be defined in a list
+
+Defining a Pod with YAML file.
+
+YAML    +  kubectl =  node-pod-container
+ Pod
+
+Sample of YAML file
+
+apiVersion: vi
+kind: Pod
+metadata:
+  name: my-nginx
+spec:
+  containers:
+  - name: my-nginx
+    image: nginx:alpine
+
+Check the yaml file is correct
+
+k create -f file.pod.yml --dry-run --validate=true
+k create -f file.pod.yml --dry-run=client --validate=true
+
+Deploy the pod for real
+
+k create -f file.pod.yml
+k create -f file.pod.yml --save-config
+k apply -f file.pod.yml <-- in place changes
+k delete -f file.pod.yml 
+
+# shell into the container
+k exec my-nginx -it -- sh
+k edit -f file.pod.yml
+
+## note if you want to default to vs code run the following command
+echo "export KUBE_EDITOR='code --wait'" >> ~/.bashrc
+source ~/.bashrc
+
+k logs my-nginx
+
+Snap shot when the pod was created using k create --save-config

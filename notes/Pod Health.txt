@@ -1,0 +1,18 @@
+Pod Health
+
+Probes is diagnostic performed periodically by the kubelet on a container
+
+Liveness probe
+Readiness probe - should receive requested
+
+Probe Types
+
+ExecAction
+TCPSocketAction
+HTTPGETAction
+
+Probes can have the following results
+
+success 
+fail
+unknow

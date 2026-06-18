@@ -1,0 +1,19 @@
+Cron Format
+
+
+-----------  min (0 - 59)
+|  ------------- hour (0-23) 
+|  |  --------------day of month(1-31) 
+|  |  |  ---------------month(1-12) or jan, feb, mar, apr, ...
+|  |  |  |  ----------------day of week(0-6, Sunday = 0 or 7) or sun, mon, tue, wed, thu, fri, sat
+|  |  |  |  |
+*  *  *  *  *
+
+
+0 * * * *   @hourly - run once every hour
+0 0 * * *   @daily - run once every day at midnight
+0 0 * * 0   @weekly - run once every week
+0 0 1 * *   @monthly - run once every month
+0 0 1 1 *   @yearly - run once very year
+*/1 * * * * Run once every minute
+

@@ -1,0 +1,23 @@
+OpenShift Rancher Kubernetes
+
+The Core idea
+
+Kubernetes - the engine, Linux kernel
+Rancher - the fleet manager, Manage 100 Linux servers
+OpenShift - the fully loaded commercial vehicle built on the engine, Red Hat Enterprise Linux, enterprise-ready
+
+
+Kubernetes - is the engine core open source container orchestration platform that schedules, scales and manages containers, 
+             run containers reliably at scale
+
+OpenShift ( Red Hat ) - Enterprise Kubernetes distribution with built-in CI/CD, security, governance and workflows, 
+                        enterprises needing  compliance, support and integrated CI/CD,  regulated industry
+
+Rancher - the muti-cluster management layer that sits on top Kubernetes to manage many k8 clusters anywhere, cloud (aws, google, azure), on-premise,
+  it is used for Mult-cloud, hybrid, on-premise platforms teams, provide centralized goverance across clouds
+
+
+
+Confluent Cloud - manages clusters 
+Terraform - Builds our infrastruture for confluent and elastic search 
+GitHub Actions - workflows CI/CD 

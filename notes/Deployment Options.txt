@@ -1,0 +1,17 @@
+Deployment Options
+
+How do you update existing pods?
+
+Current Pod              Current Pod
+     |          ----->         |
+  Container        change   Container
+nginx1:14.2-alpine   image nginx1:29.2-alpine 
+
+
+zero downtime deployments - allow software updates to be 
+                            deployed to production without 
+                            impacting end users
+- Rolling Updates
+- Blue-Green Deployments
+- Canary Deployments <== only a few users 
+- Rollbacks <== oop we have a problem 

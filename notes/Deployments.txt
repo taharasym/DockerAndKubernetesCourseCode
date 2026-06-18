@@ -1,0 +1,77 @@
+Deployments
+
+Deployments Move You to a Desired State, standard way, allot of flexibility 
+
+
+
+---- Current State -----           -------- Desired State ---------
+|                       |          |                               |
+|                       |          |                               |
+|                       |          |                               |  
+|                       |    k8    |                               |
+|                       |          |                               |
+|                       |          |                               |
+|    Container          |          |   Container      Container    |
+|                       |          |                               |
+-------------------------          ---------------------------------  
+
+  --------------------                    --------------------            
+  |                   |                   |                   | 
+  |                   |                   |                   |
+  |      Deployment   |                   |    Deployment     |
+  |                   |                   |                   |
+  |      ReplicaSet   |                   |    ReplicaSet     |
+  |                   |                   |                   |
+  |       Desired: 1  |                   |       Desired 2   |
+  |       Current: 1  |                   |       Current 2   |         
+  ---------------------                   --------------------- 
+
+Deployment concepts to deploy apps to k8
+
+Learn how to 
+ - work with and use deployment YAML files
+ - Use rolling updates deployments
+ - Perform canary deployments
+ - Perform blue-green deployments
+ - Run Jobs and Cron Jobs
+
+
+				               k8
+
+                                             Control Plane
+           	         ----------------------------------------------------------------------
+             		|                                  |                                  |
+
+        	---------------------------------------------------------------------------------------------
+             	|                                                                                            |
+             	|                              ConfigMaps/Secrets/Storage                                    |
+            	|---------------------------------------------------------------------------------------------
+                                         
+-------------	 ----------Node----------           ----------Node-------               ----------Node------- 
+|	     |  |                       |          |                    |               |                    |   
+|	     |	|                       |          |                    |               |                    |
+|	     |	|        Pod            |          |      Pod           |               |      Pod           | 
+|            |  |                       |          |                    |               |                    |
+| Deployment |  |                       |          |                    |               |                    |	
+|	     |	|                       |          |                    |               |                    |
+|            |  | 
+| ReplicaSet | 	|    Container          |          |   Container        |               |   Container        |
+|	     |  |                       |          |                    |               |                    |
+--------------	-------------------------          ----------------------               ----------------------
+
+        	---------------------------------------------------------------------------------------------
+             	|                                                                                            |
+             	|                                      Service                                               |
+            	|---------------------------------------------------------------------------------------------
+
+                                                        Cluster 
+
+
+A ReplicaSet is a declarative way to manage pods
+
+A Deployment is a declarative way to manage Pods using a ReplicaSet
+
+Kubernetes manages all of the players(Conductor)
+
+Deploying a newer version of the container, we have a new image 
+

@@ -1,0 +1,66 @@
+Canary Deployments - now you can take advantage of zero downtime deployments
+
+
+A canary deployment releases a new version alongside the stable one, 
+compare it against the baseline, and then decides whether to promote or reject it.
+
+So you have two version out there.
+
+- Strategy for checking the viability of a deployment
+- Run two identical production environments at the same time
+- Canary Deployment runs alongside the existing stable Deployment
+- Canary Deployment is setup to receive minimal traffic( 10%/20%/305 etc.)
+
+
+        	---------------------------------------------------------------------------------------------
+             	|                                                                                            |
+             	|                              ConfigMaps/Secrets/Storage                                    |
+            	|---------------------------------------------------------------------------------------------
+                                         
+-------------	 ----------Node----------           ----------Node-------               ----------Node------- 
+|	     |  |                       |          |                    |               |                    |   
+|	     |	|                       |          |                    |               |                    |
+|	     |	|        Pod            |          |      Pod           |               |      Pod           | 
+|            |  |                       |          |                    |               |                    |
+| Deployment |  |                       |          |                    |               |                    |	
+|	     |	|                       |          |                    |               |                    |
+|            |  | 
+| ReplicaSet | 	|    Container          |          |   Container        |               |   Container        |
+|	     |  |                       |          |                    |               |                    |
+--------------	-------------------------          ----------------------               ----------------------
+
+        	---------------------------------------------------------------------------------------------
+             	|                                                                                            |
+             	|                                      Service                                               |
+            	|---------------------------------------------------------------------------------------------
+
+What happens if you happen to have a brand new deployment you want to get it out there production 
+but you want to have small portion of taffic this it first, then you check out the logs to see its good, 
+if its good then you can have convert all the traffic hit that version. 
+That way you can do a small scale test of it see the logs fix any issues found then roll it out.
+
+Can you rollout a new Deployment but only route a small percentage of the traffic to it to ensure it's working properly?
+Yes that's a Canary Deployment. You might have 10% hitting the canary version and 90 % hitting the production version.
+
+1. Create Stable Deployment and Service
+
+               Stable                             Canary
+
+       ------------------------------------------------------------
+       |                         Service                          |
+       ------------------------------------------------------------
+                   |                                  |
+           ----------------                           | 
+           |               |                          |
+       -----------  -----------                 ----------
+      |    Pod    | |    Pod   |                |   Pod   |
+      |  stable   | |   stable |                |  canary |
+      ------------- ------------                ----------- 
+
+      --------------------------        -----------------------------
+      |       Deployment        |       |        Deployment          |
+      |   Pod Template: stable  |       |       track: canary        |
+      ---------------------------       ------------------------------ 
+     
+
+

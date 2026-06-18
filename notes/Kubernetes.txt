@@ -1,0 +1,37 @@
+Kubernetes
+
+kubectl command api --> control plane
+
+                  ------------------------------------
+                  |                  |               |
+Deployment        Node               Node             Node
+
+                   Pod                Pod              Pod
+
+                   Container          Container        Container
+
+                               Cluster  
+
+Work with the control plane
+
+kubectl version
+kubectl cluster-info
+kubectl get all  <== Retrieve Pods, Deployments, Service info , like a select all
+kubectl run [container-name] --image=[image-name]
+kubectl port-forward [pod] [ports] <== access the port external
+kubectl expose <== expose the port
+kubectl create [resource] <== create like IoC
+kubectl apply [resource] <==
+
+# You might want an alias as you will be typing these commands over and over
+# Powershell
+Set-Alias -Name k -Value kubectl
+
+# Linux bashrc file
+alias k="kubectl"
+
+k run my-nginx --image nginx
+k describe pod/nginx
+k get pods
+k delete pod/my-nginx
+

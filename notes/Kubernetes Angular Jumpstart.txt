@@ -1,0 +1,5 @@
+Kubernetes Angular Jumpstart
+
+Note that you can also point to a folder instead of a file
+
+k apply -f .k8s

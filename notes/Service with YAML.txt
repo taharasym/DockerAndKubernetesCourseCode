@@ -1,0 +1,36 @@
+Service with YAML
+
+Creating a Service with YAML
+
+Defining a Service with YAML
+
+
+apiVersion: v1      -- Kubernetes API version and resource type(Service)
+kind: Service       
+metadata:           -- Metadata about the Service 
+spec:
+  type:             -- Type of service(ClusterIP, NodePort,LoadBalancer) - defaults to ClusterIP
+  selector:         -- Select Pod Template label(s) that service will appy to  
+  ports:            -- Define container target port and the port for the service
+
+
+example
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+  label:
+   app:nginx
+  spec
+    selector:
+      app: nginx
+    ports:
+    - name: http
+      port: 80
+      targetPort: 80
+
+
+You can connect to a service by its internal name.
+
+Connecting to a Service by it's FQDN Name

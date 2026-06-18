@@ -1,0 +1,45 @@
+Jobs and CronJobs
+
+
+        	---------------------------------------------------------------------------------------------
+             	|                                                                                            |
+             	|                              ConfigMaps/Secrets/Storage                                    |
+            	|---------------------------------------------------------------------------------------------
+                                         
+-------------	 ----------Node----------           ----------Node-------               ----------Node------- 
+|	     |  |                       |          |                    |               |                    |   
+|	     |	|                       |          |                    |               |                    |
+|	     |	|        Pod            |          |      Pod           |               |      Pod           | 
+|            |  |                       |          |                    |               |                    |
+| Deployment |  |                       |          |                    |               |                    |	
+|	     |	|                       |          |                    |               |                    |
+|            |  | 
+| ReplicaSet | 	|    Container          |          |   Container        |               |   Container        |
+|	     |  |                       |          |                    |               |                    |
+--------------	-------------------------          ----------------------               ----------------------
+
+--------------   ---------------------------------------------------------------------------------------------
+|    Job      | |                                                                                            |
+|  CronJob    | |                                      Service                                               |
+--------------- |---------------------------------------------------------------------------------------------
+
+
+Have you ever needed to a run a job that performs a task and then terminates?
+
+A Job creates one or more Pods and ensures that a specified number of them successfully terminate - on demand and get the output
+
+
+             Retrieve and 
+             cache remote
+                 data                           - A Job creates a Pod(s) that performs a task or batch process
+                  |                                 
+                  |                             - Unlike standards Pods, a Job does not run indefinitely
+Process     -------------        Perform    
+queues -----|            |-------backup         - A Job can be configured to run multiple Pods
+            --------------
+                 Job                            - Successful completions are tracked  
+                  |
+                  |                             - Once a Job is deleted its Pods are removed
+              Move data
+              between
+                 DBs
