@@ -1,0 +1,123 @@
+Helm in Action
+
+helm search hub nginx
+
+helm search hub nginx --list-repo-url
+
+# easier to read
+helm search hub nginx --list-repo-url -o yaml
+
+
+# add a repo
+helm repo add bitnami https://charts.bitnami.com/bitnami
+
+helm repo list
+NAME    URL                               
+bitnami https://charts.bitnami.com/bitnami
+
+# A chart is a bundle of files
+
+helm search repo nginx
+
+NAME                                    CHART VERSION   APP VERSION     DESCRIPTION                                       
+bitnami/nginx                           25.0.10         1.31.2          NGINX Open Source is a web server that can be a...
+bitnami/nginx-ingress-controller        12.0.7          1.13.1          NGINX Ingress Controller is an Ingress controll...
+bitnami/nginx-intel                     2.1.15          0.4.9           DEPRECATED NGINX Open Source for Intel is a lig...
+
+# note this is going to give you all of the defaults
+helm install bitnami/nginx
+
+helm show values bitnami/nginx
+
+# note this is going to interact with Kubernetes. and under the covers, its going to take care of the deployment and everything else we would need.
+
+helm install my-nginx bitnami/nginx
+
+$ helm install my-nginx bitnami/nginx 
+NAME: my-nginx
+LAST DEPLOYED: Mon Jun 22 21:40:45 2026
+NAMESPACE: dev
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+CHART NAME: nginx
+CHART VERSION: 25.0.10
+APP VERSION: 1.31.2
+
+⚠ WARNING: Since August 28th, 2025, only a limited subset of images/charts are available for free.
+    Subscribe to Bitnami Secure Images to receive continued support and security updates.
+    More info at https://bitnami.com and https://github.com/bitnami/containers/issues/83267
+
+** Please be patient while the chart is being deployed **
+NGINX can be accessed through the following DNS name from within your cluster:
+
+    my-nginx.dev.svc.cluster.local (port 80)
+
+To access NGINX from outside the cluster, follow the steps below:
+
+1. Get the NGINX URL by running these commands:
+
+  NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+        Watch the status with: 'kubectl get svc --namespace dev -w my-nginx'
+
+    export SERVICE_PORT=$(kubectl get --namespace dev -o jsonpath="{.spec.ports[0].port}" services my-nginx)
+    export SERVICE_IP=$(kubectl get svc --namespace dev my-nginx -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    echo "http://${SERVICE_IP}:${SERVICE_PORT}"
+WARNING: Rolling tag detected (bitnami/nginx:latest), please note that it is strongly recommended to avoid using rolling tags in a production environment.
++info https://techdocs.broadcom.com/us/en/vmware-tanzu/bitnami-secure-images/bitnami-secure-images/services/bsi-doc/apps-tutorials-understand-rolling-tags-containers-index.html
+WARNING: Rolling tag detected (bitnami/git:latest), please note that it is strongly recommended to avoid using rolling tags in a production environment.
++info https://techdocs.broadcom.com/us/en/vmware-tanzu/bitnami-secure-images/bitnami-secure-images/services/bsi-doc/apps-tutorials-understand-rolling-tags-containers-index.html
+WARNING: Rolling tag detected (bitnami/nginx-exporter:latest), please note that it is strongly recommended to avoid using rolling tags in a production environment.
++info https://techdocs.broadcom.com/us/en/vmware-tanzu/bitnami-secure-images/bitnami-secure-images/services/bsi-doc/apps-tutorials-understand-rolling-tags-containers-index.html
+
+WARNING: There are "resources" sections in the chart not set. Using "resourcesPreset" is not recommended for production. For production installations, please set the following values according to your workload needs:
+  - cloneStaticSiteFromGit.gitSync.resources
+  - resources
++info https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+
+
+
+
+helm list
+NAME            NAMESPACE       REVISION        UPDATED                                 STATUS          CHART           APP VERSION
+my-nginx        dev             1               2026-06-22 21:40:45.0491466 -0500 CDT   deployed        nginx-25.0.10   1.31.2     
+
+helm uninstall my-nginx
+
+
+# clean up we had some left over deployments to clean up
+k delete deployment biz-app web-app
+
+
+k get all
+NAME                           READY   STATUS    RESTARTS   AGE
+pod/biz-app-ff8d7b454-7c6k8    1/1     Running   0          6h17m
+pod/biz-app-ff8d7b454-nljf5    1/1     Running   0          6h17m
+pod/biz-app-ff8d7b454-r49h6    1/1     Running   0          6h17m
+pod/biz-app-ff8d7b454-rwfl7    1/1     Running   0          6h1m
+pod/web-app-8596568b59-2qg44   1/1     Running   0          6h41m
+pod/web-app-8596568b59-4w828   1/1     Running   0          6h41m
+pod/web-app-8596568b59-5c5st   1/1     Running   0          6h41m
+pod/web-app-8596568b59-5wcj4   1/1     Running   0          6h41m
+pod/web-app-8596568b59-8zk68   1/1     Running   0          6h41m
+pod/web-app-8596568b59-frzhk   1/1     Running   0          6h41m
+
+NAME                      READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/biz-app   4/4     4            4           6h17m
+deployment.apps/web-app   6/6     6            6           6h47m
+
+NAME                                 DESIRED   CURRENT   READY   AGE
+replicaset.apps/biz-app-6f48b9bb8d   0         0         0       6h6m
+replicaset.apps/biz-app-ff8d7b454    4         4         4       6h17m
+replicaset.apps/web-app-5dc48b868c   0         0         0       6h47m
+replicaset.apps/web-app-8596568b59   6         6         6       6h41m
+
+taharasym@A306245L MINGW64 ~
+$ kubectl delete deployment biz-app web-app
+deployment.apps "biz-app" deleted from dev namespace
+deployment.apps "web-app" deleted from dev namespace
+
+taharasym@A306245L MINGW64 ~
+$ k get all
+No resources found in dev namespace.

@@ -1,0 +1,34 @@
+Kubernetes History
+
+came out of google, cloud native
+
+Borg ==> Omega ==> Kubernetes
+
+Cloud Providers all offer hosted Kubernetes services and so does IBM and a bunch of others
+
+Amazon, Azure and Google 
+
+Kubernetes 
+
+On all good cloud platforms
+on premises as well, 
+even on your laptop when your developing
+
+Backed by enterprise-class support contracts so everyone is behind it, meaning they're contributing to it development
+
+Kubernetes does 
+- stateless 
+- stateful
+- batch work 
+- long running
+- security
+- storage
+- networking
+- serverless
+- Functions as a Service
+- machine learning
+
+Greek for helmsman or captain, the helmsman being the person who steers the ship
+
+Kubernetes (helmsman)
+k8s (short with 8 replacing the characters between the K and s)

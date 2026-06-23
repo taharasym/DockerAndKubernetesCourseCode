@@ -1,0 +1,38 @@
+Understanding Helm
+
+Package mananger
+
+Helm is the best way to find, share and use software built for Kubernetes
+
+https://helm.sh
+
+Helm Use Case Example
+
+Install a Database into Kubernetes
+
+Another example would be something like WordPress or Drupal or some type of software package where there's multiple moving parts.
+
+Again, we're probably going to have secrets, config maps, storage, deployments, services. That's a log of YAML floating around and little more challenging to get right. What if we could just pull a package off the shelf tell Helm to install that package into Kubernetes, and it just works? Well, that's, in general, what you're going to see happens with Helm and the different Helm commands. Maybe you want to get Grafana going so that you have some rich dashboards available to you. Again, you could certainly do this all on your own. Get all the moving parts working properly and deployed into Kubernetes, or you could reach onto the shelf, pull off the Helm package, and then run a few commands to get that package installed. That's what Helm can really, really help with. Helm could be used for just single image deployments.  
+
+Helm is package manager for Kubernetes
+
+  - Tool for managing Kubernetes packages called "Charts"
+  - Use charts to install, upgrade, and uninstall Kubernetes apps
+  - Helm Client - command-line client for end users
+  - Helm Library - Logic for executing operations
+
+
+Helm Concepts
+
+Chart - Bundle of information used to create an instance of a Kubernetes application
+
+Config - Configuration information that can be merged into a package chart to create a releasable object
+
+Release - Running instance of a chart (combined with a specific configuration) in Kubernetes cluster.
+
+Helm installs charts into Kubernetes, creating a new release for each installation. And to find new charts, you can search  Helm charts repositories. 
+
+
+https:/helm.sh/docs/intro/using_helm
+
+

@@ -1,0 +1,142 @@
+helm task 1
+
+1. Create a namespace dev
+ k get ns
+NAME              STATUS   AGE
+default           Active   6d9h
+dev               Active   7h31m
+kube-node-lease   Active   6d9h
+kube-public       Active   6d9h
+kube-system       Active   6d9h
+
+taharasym@A306245L MINGW64 ~
+$ k delete ns dev
+namespace "dev" deleted
+
+taharasym@A306245L MINGW64 ~
+$ k create ns dev
+namespace/dev created
+
+taharasym@A306245L MINGW64 ~
+$ k get ns
+NAME              STATUS   AGE
+default           Active   6d9h
+dev               Active   10s
+kube-node-lease   Active   6d9h
+kube-public       Active   6d9h
+kube-system       Active   6d9h
+
+2. add repo bitnami 
+
+helm repo add bitnami https://charts.bitnami.com/bitnami
+
+3.
+
+$ helm repo list
+NAME    URL                               
+bitnami https://charts.bitnami.com/bitnami
+
+taharasym@A306245L MINGW64 ~
+$ helm repo remove bitnami
+"bitnami" has been removed from your repositories
+
+taharasym@A306245L MINGW64 ~
+$ helm repo add bitnami https://chart.bitnami.com/bitnami
+Error: looks like "https://chart.bitnami.com/bitnami" is not a valid chart repository or cannot be reached: Get "https://chart.bitnami.com/bitnami/index.yaml": dial tcp: lookup chart.bitnami.com: no such host
+
+taharasym@A306245L MINGW64 ~
+$ helm repo add bitnami https://charts.bitnami.com/bitnami
+"bitnami" has been added to your repositories
+
+taharasym@A306245L MINGW64 ~
+$ helm repo list
+NAME    URL                               
+bitnami https://charts.bitnami.com/bitnami
+
+
+4. helm search repo nginx
+# this will list allot of versions
+helm search repo --versions
+
+5. helm install nginx-app bitnami/nginx -n dev
+
+
+
+helm install nginx-app bitnami/nginx -n dev
+NAME: nginx-app
+LAST DEPLOYED: Mon Jun 22 22:16:25 2026
+NAMESPACE: dev
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+CHART NAME: nginx
+CHART VERSION: 25.0.10
+APP VERSION: 1.31.2
+
+⚠ WARNING: Since August 28th, 2025, only a limited subset of images/charts are available for free.
+    Subscribe to Bitnami Secure Images to receive continued support and security updates.
+    More info at https://bitnami.com and https://github.com/bitnami/containers/issues/83267
+
+** Please be patient while the chart is being deployed **
+NGINX can be accessed through the following DNS name from within your cluster:
+
+    nginx-app.dev.svc.cluster.local (port 80)
+
+To access NGINX from outside the cluster, follow the steps below:
+
+1. Get the NGINX URL by running these commands:
+
+  NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+        Watch the status with: 'kubectl get svc --namespace dev -w nginx-app'
+
+    export SERVICE_PORT=$(kubectl get --namespace dev -o jsonpath="{.spec.ports[0].port}" services nginx-app)
+    export SERVICE_IP=$(kubectl get svc --namespace dev nginx-app -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    echo "http://${SERVICE_IP}:${SERVICE_PORT}"
+WARNING: Rolling tag detected (bitnami/nginx:latest), please note that it is strongly recommended to avoid using rolling tags in a production environment.
++info https://techdocs.broadcom.com/us/en/vmware-tanzu/bitnami-secure-images/bitnami-secure-images/services/bsi-doc/apps-tutorials-understand-rolling-tags-containers-index.html
+WARNING: Rolling tag detected (bitnami/git:latest), please note that it is strongly recommended to avoid using rolling tags in a production environment.
++info https://techdocs.broadcom.com/us/en/vmware-tanzu/bitnami-secure-images/bitnami-secure-images/services/bsi-doc/apps-tutorials-understand-rolling-tags-containers-index.html
+WARNING: Rolling tag detected (bitnami/nginx-exporter:latest), please note that it is strongly recommended to avoid using rolling tags in a production environment.
++info https://techdocs.broadcom.com/us/en/vmware-tanzu/bitnami-secure-images/bitnami-secure-images/services/bsi-doc/apps-tutorials-understand-rolling-tags-containers-index.html
+
+WARNING: There are "resources" sections in the chart not set. Using "resourcesPreset" is not recommended for production. For production installations, please set the following values according to your workload needs:
+  - cloneStaticSiteFromGit.gitSync.resources
+  - resources
++info https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+
+taharasym@A306245L MINGW64 ~
+$ k get pods -n dev
+NAME                         READY   STATUS    RESTARTS   AGE
+nginx-app-7645d8dcdd-zrc4h   1/1     Running   0          17s
+
+taharasym@A306245L MINGW64 ~
+$ k get all -n dev
+NAME                             READY   STATUS    RESTARTS   AGE
+pod/nginx-app-7645d8dcdd-zrc4h   1/1     Running   0          46s
+
+NAME                TYPE           CLUSTER-IP    EXTERNAL-IP   PORT(S)                      AGE
+service/nginx-app   LoadBalancer   10.108.32.5   localhost     80:31916/TCP,443:31456/TCP   46s
+
+NAME                        READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/nginx-app   1/1     1            1           46s
+
+NAME                                   DESIRED   CURRENT   READY   AGE
+replicaset.apps/nginx-app-7645d8dcdd   1         1         1       46s
+
+taharasym@A306245L MINGW64 ~
+$ helm list -n dev
+NAME            NAMESPACE       REVISION        UPDATED                                 STATUS          CHART           APP VERSION
+nginx-app       dev             1               2026-06-22 22:16:25.2709385 -0500 CDT   deployed        nginx-25.0.10   1.31.2     
+
+taharasym@A306245L MINGW64 ~
+$ helm un nginix-app -n dev
+Error: uninstall: Release not loaded: nginix-app: release: not found
+
+taharasym@A306245L MINGW64 ~
+$ helm un ngix-app -n dev
+Error: uninstall: Release not loaded: ngix-app: release: not found
+
+taharasym@A306245L MINGW64 ~
+$ helm un nginx-app -n dev
+release "nginx-app" uninstalled

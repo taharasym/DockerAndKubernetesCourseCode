@@ -1,0 +1,17 @@
+Kubernetes what does it do
+
+Kubernetes is the conductor
+
+Docker does the starting, stopping and deleting containers, low level stuff
+
+Kubernetes cares about higher-level stuff like
+
+- Scheduling, scaling, healing, updating
+
+- How may containers to run in, maybe which node to run them on
+
+- Things like knowing when to scale them up or down
+
+- How to update your container without downtime
+
+we would have a  Kubernetes cluster  to host our applications

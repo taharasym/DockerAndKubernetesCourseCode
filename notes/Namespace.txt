@@ -1,0 +1,135 @@
+Namespace
+
+
+k create ns dev
+namespace/dev created
+
+
+k get ns
+NAME              STATUS   AGE
+default           Active   6d1h
+dev               Active   50s
+kube-node-lease   Active   6d1h
+kube-public       Active   6d1h
+kube-system       Active   6d1h
+
+# setup you namespace for all of the commands going forward, now we don't have to do this for each of our commands
+
+k config set-context --current --namespace=dev
+Context "docker-desktop" modified.
+
+
+k create deploy web-app --image=nginx:1.17.8-alpine --replicas=6  --save-config
+deployment.apps/web-app created
+
+# if you need to delete all of the pods due a spelling error or something else
+k delete pods --all
+
+k get deploy -n dev
+NAME       READY   UP-TO-DATE   AVAILABLE   AGE
+web-app    0/1     1            0           12m
+web-apps   0/6     6            0           9m24s
+
+taharasym@A306245L MINGW64 ~/repo/kubernetes/DockerAndKubernetesCourseCode/samples/rolling-update (main)
+$ kubectl delete deployment web-apps -n dev
+deployment.apps "web-apps" deleted from dev namespace
+
+taharasym@A306245L MINGW64 ~/repo/kubernetes/DockerAndKubernetesCourseCode/samples/rolling-update (main)
+$ kubectl delete deployment web-app -n dev
+deployment.apps "web-app" deleted from dev namespace
+
+
+# edit the deployment 
+KUBE_EDITOR="nano" k edit deploy web-app
+
+# another way is set the image
+k set image deploy web-app nginx=nginx:1.23.1-alpine
+deployment.apps/web-app image updated
+
+taharasym@A306245L MINGW64 ~/repo/kubernetes/DockerAndKubernetesCourseCode/samples/rolling-update (main)
+$ k get pods
+NAME                       READY   STATUS      RESTARTS   AGE
+web-app-5dc48b868c-lqhcm   0/1     Completed   0          6m23s
+web-app-8596568b59-2qg44   1/1     Running     0          6s
+web-app-8596568b59-4w828   1/1     Running     0          7s
+web-app-8596568b59-5c5st   1/1     Running     0          13s
+web-app-8596568b59-5wcj4   1/1     Running     0          8s
+web-app-8596568b59-8zk68   1/1     Running     0          13s
+web-app-8596568b59-frzhk   1/1     Running     0          13s
+
+
+k annotate deploy web-app kubernetes.io/change-cause="Changed to nginx:1.23.1" --overwrite=true
+deployment.apps/web-app annotated
+
+k get deploy web-app -o yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "2"
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"kind":"Deployment","apiVersion":"apps/v1","metadata":{"name":"web-app","labels":{"app":"web-app"}},"spec":{"replicas":6,"selector":{"matchLabels":{"app":"web-app"}},"template":{"metadata":{"labels":{"app":"web-app"}},"spec":{"containers":[{"name":"nginx","image":"nginx:1.17.8-alpine","resources":{}}]}},"strategy":{}},"status":{}}
+    kubernetes.io/change-cause: Changed to nginx:1.23.1
+  creationTimestamp: "2026-06-22T20:00:01Z"
+  generation: 3
+  labels:
+    app: web-app
+  name: web-app
+  namespace: dev
+  resourceVersion: "174100"
+  uid: 80c6c050-0c51-439d-a1ee-b8646af649f1
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 6
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: web-app
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: web-app
+    spec:
+      containers:
+      - image: nginx:1.23.1-alpine
+        imagePullPolicy: IfNotPresent
+        name: nginx
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  availableReplicas: 6
+  conditions:
+  - lastTransitionTime: "2026-06-22T20:00:06Z"
+    lastUpdateTime: "2026-06-22T20:00:06Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  - lastTransitionTime: "2026-06-22T20:00:01Z"
+    lastUpdateTime: "2026-06-22T20:06:22Z"
+    message: ReplicaSet "web-app-8596568b59" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  observedGeneration: 3
+  readyReplicas: 6
+  replicas: 6
+  updatedReplicas: 6
+
+
+k get deploy web-app -o json | jq '.metadata.annotations."kubernetes.io/change-cause"'
+"Changed to nginx:1.23.1"
+
+k rollout status deploy web-app
+deployment "web-app" successfully rolled out

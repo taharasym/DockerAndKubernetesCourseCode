@@ -1,0 +1,43 @@
+Working with Helm Commands
+
+
+helm -h
+
+
+k config current-context
+docker-desktop
+
+k get nodes
+NAME             STATUS   ROLES           AGE    VERSION
+docker-desktop   Ready    control-plane   6d7h   v1.34.1
+
+# install helm Linux 
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+
+Helm Command Flow
+
+helm -h
+
+# Find charts and repo
+
+helm search hub
+helm repo add
+helm search repo
+helm values
+
+# Learn about chart values
+helm show values
+helm pull --untar
+
+# Install, upgrade, uninstall a chart
+helm install
+helm upgrade
+helm uninstall
+
+# Dig into what's already out there
+helm status
+helm list
+
+
+

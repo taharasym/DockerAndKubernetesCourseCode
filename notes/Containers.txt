@@ -1,0 +1,87 @@
+Containers
+
+
+
+VMWare hypervisor technology 
+
+
+VM Warts short coming - slices of the real physical server below
+
+- each vm need its own OS : Linux or Windows
+- you may need 4 OS licenses
+
+Potential OS overheads
+- License costs
+- Admin
+  - Patching
+  - Updates
+  - AV(antivirus management)
+- It took too long, it cost too much, and it resulted in a buttload of waste
+ 
+- Still issues and still gains to be made which leads us to containers
+
+           VMware and hypervisor model
+
+-----------   ------------   -------------   -------------- <----
+|   OS     |  |   OS      |  |    OS      |  |    OS      |     |
+|          |  |           |  |            |  |            |     |        Steal resources
+-----------    -----------   -------------   --------------     |            each attact vertor
+-----------   -------------  --------------  --------------     |  Waste!
+|  VM      |  |    VM     |  |    VM      |  |     VM      |    |
+|  25% cpu |  |  25% cpu  |  |  25% cpu   |  |    25% cpu  |    |
+|  25% mem |  |  25% mem  |  |  25% mem   |  |    25% mem  |    |
+|  25$ disk|  |  25% disk |  |  25% disk  |  |    25% disk |    |
+------|------  -----|--------  ------|--------  -----|-----------
+------------------------------------------------------------
+|                  Hypervisor                               | 
+------|-------------|----------------|---------------|-------
+|                                                           |
+|                                                           |
+|                                                           |
+|                           Server                          |
+------------------------------------------------------------
+
+- one OS
+- improve on nearly everything offered by hypervisors
+- pave the way for more modern cloud native and microservices applications
+- remove the fat
+- more space to spin up more containers
+- more app's for the business
+- faster startup, spinning things up and tearing things down
+- no virtual machine
+- OS already running
+- all containers sharing the OS 
+- only one OS stealing resources and demanding admin time
+- Docker runs on VMs, bare metal, your laptop, whatever
+-----------   ------------   -------------   --------------
+|Container |  |Container  |  |Container   |  |Container   |
+|   APP    |  |   APP     |  |    APP     |  |   APP      |
+-----------    -----------   -------------   -------------- 
+-------------------------------------------------------------------------------
+|                  Linux/Windows Server                                       | 
+-------------------------------------------------------------------------------
+|                                                                             |
+|                                                                             |
+|                                                                             |
+|                           Server                                            |
+-------------------------------------------------------------------------------
+
+     Window apps only                 Linux apps only
+-----------------------            ------------------------
+|                      |           |                       |
+|      Docker          |           |      Docker           | 
+------------------------           -------------------------
+------------------------           -------------------------
+|      Window Server    |          |         Linux          |        
+| (VM/bare metal/laptop |          | (VM/bare metal/laptop  |    
+------------------------           -------------------------
+* it is possible to run your Linux apps on Docker on Windows
+- like vm, just faster and more lightweight
+
+docker image ls or docker images
+docker container run -d --name web -p 8080:8080 nigelpoulton/ctr-demo:1
+docker stop web
+docker container start web
+
+Docker Hub
+

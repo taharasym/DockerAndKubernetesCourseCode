@@ -1,0 +1,39 @@
+Docker
+
+Started out as dotCloud, platform on top of Amazon Web Services
+
+Changed the way we build, ship and run software, the gift of containers 
+
+Docker in the business of orchestrating and supporting containerized apps at scale with a focus on enterprises
+
+Containers are like fast lightweight VM and 
+
+"Docker make running our apps inside of containers really easy."
+
+Docker Open source and Lives on GitHub
+
+Red Hatters IBMers Microsoft - all the big players are contributors, most are support as well
+
+Community Edition (CE)            Enterprise Edition (EE)
+
+- Open source                     - Slower release cycle
+- Lots of contributors            - Additional features
+- Quick release cycle             - Official support contract
+
+
+Containerizing Apps
+
+Each part of the microservices can be fixed, worked on independently in a container, they all talk to each other to form that useful app.
+
+
+# build the image out of all the files in this directory and below, 
+
+docker image build -t nigelpoulton/ctr-demo:2 .
+
+# normally we push this image to a registry or you can push it to a Docker Hub
+
+docker image push nigelpoulton/ctr-demo
+
+# Run this image we just built
+docker container run -d --name web -p 8000:8080 nigelpoulton/ctr-demo:2
+

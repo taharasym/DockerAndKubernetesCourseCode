@@ -1,0 +1,40 @@
+Namespace dev rollback
+
+k config set-context --current --namespace=dev 
+Context "docker-desktop" modified.
+
+k create deploy [deployment-name] --image=[image-name]:[tag] --dry-run=client -o yaml > deploy.yaml
+
+k create deploy biz-app --image=nginx:1.23.1-alpine --replicas=4  --dry-run=client -o yaml > biz-app.deploy.yml
+
+k annotate deploy [deployment-name] Kubernetes.io/change-clause="Change to nginx:1.23.1" --overwrite=true
+
+k rollout history deploy [deployment-name]
+
+k rollout undo deploy [deployment-name]
+
+k get deploy web-app -o json | jq '.metadata.annotations."Kubernetes.io/change-cause"'
+
+k create -f ./biz-app.deploy.yml --save-config
+deployment.apps/biz-app created
+
+
+ k get pods -o yaml | grep nginx:1.23.1-alpine
+    - image: nginx:1.23.1-alpine
+      image: nginx:1.23.1-alpine
+    - image: nginx:1.23.1-alpine
+      image: nginx:1.23.1-alpine
+    - image: nginx:1.23.1-alpine
+      image: nginx:1.23.1-alpine
+    - image: nginx:1.23.1-alpine
+      image: nginx:1.23.1-alpine
+    - image: nginx:1.23.1-alpine
+      image: nginx:1.23.1-alpine
+
+k get pods -o yaml | grep 'nginx:1.23.1-alpine'
+
+
+k get pods -o yaml | grep nginx:1.23.1-alpine | wc -l
+
+https://github.com/nigelpoulton/ckad
+
