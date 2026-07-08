@@ -31,4 +31,3 @@ Volume Types allot of them
 - persistenVolumeClaim : Provides Pods with a more persistent storage option that is abstracted
 
 - Cloud    : Cluster-wide storage(gcps, azure, aws)
-

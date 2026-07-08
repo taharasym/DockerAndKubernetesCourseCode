@@ -6,7 +6,7 @@ Deployments and ReplicaSets(scale the pods) ensure Pods stay running and can be 
 
 A Deployment manages pods
  
-- Pods ae managed using ReplicaSets
+- Pods are managed using ReplicaSets
 - Scales ReplicaSets, which scale Pods
 - Support zero-downtime updates by creating and destroying ReplicaSets
 - Self-healing mechanism

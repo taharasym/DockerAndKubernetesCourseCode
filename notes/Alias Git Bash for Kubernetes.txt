@@ -1,0 +1,142 @@
+Alias Git Bash for Kubernetes
+
+$ cat .bashrc
+alias k='kubectl'
+
+# ─── kubectl Aliases ───────────────────────────────────────────
+
+# Core
+alias k='kubectl'
+alias kv='kubectl version'
+alias kcc='kubectl config current-context'
+alias kuc='kubectl config use-context'
+alias kgc='kubectl config get-contexts'
+
+# Namespaces
+alias kns='kubectl config set-context --current --namespace'
+alias kgns='kubectl get namespaces'
+
+# Pods
+alias kgp='kubectl get pods'
+alias kgpa='kubectl get pods --all-namespaces'
+alias kgpw='kubectl get pods -o wide'
+alias kdp='kubectl describe pod'
+alias kdel='kubectl delete pod'
+alias klog='kubectl logs'
+alias klogf='kubectl logs -f'
+alias kexec='kubectl exec -it'
+
+# Deployments
+alias kgd='kubectl get deployments'
+alias kdd='kubectl describe deployment'
+alias ksd='kubectl scale deployment'
+alias krsd='kubectl rollout status deployment'
+alias krud='kubectl rollout undo deployment'
+alias krd='kubectl rollout restart deployment'
+
+# Services
+alias kgs='kubectl get services'
+alias kds='kubectl describe service'
+
+# Nodes
+alias kgn='kubectl get nodes'
+alias kgna='kubectl get nodes -o wide'
+alias kdn='kubectl describe node'
+
+# ConfigMaps & Secrets
+alias kgcm='kubectl get configmaps'
+alias kdcm='kubectl describe configmap'
+alias kgsec='kubectl get secrets'
+alias kdsec='kubectl describe secret'
+
+# Ingress
+alias kgi='kubectl get ingress'
+alias kdi='kubectl describe ingress'
+
+# PersistentVolumes
+alias kgpv='kubectl get pv'
+alias kgpvc='kubectl get pvc'
+
+# Apply / Delete
+alias kaf='kubectl apply -f'
+alias kdf='kubectl delete -f'
+alias kdelf='kubectl delete --force'
+
+# Resource usage
+alias ktop='kubectl top pods'
+alias ktopn='kubectl top nodes'
+
+# Events & debugging
+alias kge='kubectl get events --sort-by=.metadata.creationTimestamp'
+alias krun='kubectl run --rm -it --restart=Never'
+
+
+# ─── kubectl Aliases ───────────────────────────────────────────
+
+# Core
+alias k='kubectl'
+alias kv='kubectl version'
+alias kcc='kubectl config current-context'
+alias kuc='kubectl config use-context'
+alias kgc='kubectl config get-contexts'
+
+# Namespaces
+alias kns='kubectl config set-context --current --namespace'
+alias kgns='kubectl get namespaces'
+
+# Pods
+alias kgp='kubectl get pods'
+alias kgpa='kubectl get pods --all-namespaces'
+alias kgpw='kubectl get pods -o wide'
+alias kdp='kubectl describe pod'
+alias kdel='kubectl delete pod'
+alias klog='kubectl logs'
+alias klogf='kubectl logs -f'
+alias kexec='kubectl exec -it'
+
+# Deployments
+alias kgd='kubectl get deployments'
+alias kdd='kubectl describe deployment'
+alias ksd='kubectl scale deployment'
+alias krsd='kubectl rollout status deployment'
+alias krud='kubectl rollout undo deployment'
+alias krd='kubectl rollout restart deployment'
+
+# Services
+alias kgs='kubectl get services'
+alias kds='kubectl describe service'
+
+# Nodes
+alias kgn='kubectl get nodes'
+alias kgna='kubectl get nodes -o wide'
+alias kdn='kubectl describe node'
+
+# ConfigMaps & Secrets
+alias kgcm='kubectl get configmaps'
+alias kdcm='kubectl describe configmap'
+alias kgsec='kubectl get secrets'
+alias kdsec='kubectl describe secret'
+
+# Ingress
+alias kgi='kubectl get ingress'
+alias kdi='kubectl describe ingress'
+
+# PersistentVolumes
+alias kgpv='kubectl get pv'
+alias kgpvc='kubectl get pvc'
+
+# Apply / Delete
+alias kaf='kubectl apply -f'
+alias kdf='kubectl delete -f'
+alias kdelf='kubectl delete --force'
+
+# Resource usage
+alias ktop='kubectl top pods'
+alias ktopn='kubectl top nodes'
+
+# Events & debugging
+alias kge='kubectl get events --sort-by=.metadata.creationTimestamp'
+alias krun='kubectl run --rm -it --restart=Never'
+
+export KUBE_EDITOR='code --wait'
+export PATH=$PATH:/c/helm

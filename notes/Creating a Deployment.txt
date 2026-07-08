@@ -24,7 +24,7 @@ k get deployments --show-labels
 
 k get deployments -l app=my-nginx
 
-k scale -f nginx.deployment.yml --replicas=
+k scale -f nginx.deployment.yml --replicas=4
 
 k scale deployment [deployment-name] --replicas=4
 

@@ -1,0 +1,29 @@
+Helm review
+
+Helm is a package manager for Kubernetes
+
+Find charts by: 
+
+- Searching a hub
+- Adding a repo to our machine
+- Searching a repo
+
+Use Helm to 
+
+- Customize installs
+- upgrade
+- uninstall charts
+
+Helm commands
+
+helm search hub
+helm repo add
+helm show values
+helm install
+helm upgrade
+helm uninstall
+helm --help
+
+Course Material covered up to this point
+
+https://github.com/nigelpoulton/ckad

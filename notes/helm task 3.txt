@@ -1,0 +1,44 @@
+helm task 3
+
+1. List all current Helm installations in the dev namespace
+
+helm list -n dev
+
+helm repo update
+
+2. Update the Helm bitnami repo
+
+helm repo list
+
+3. Show all nginx charts values for version 13.1.5
+
+helm search repo nginx --version=13.1.5 | grep repli
+
+4. Install the nginx version 13.1.5 chart with 5 replicas. Name the release nginx-app and install it into the dev namespace.
+
+helm show values bitnami/nginx --version=13.1.5
+
+helm install nginx-app bitnami/nginx --version=13.1.5 -n dev --set replicaCount=5
+
+5. List the running pods
+
+k get pods -n dev
+
+6. Upgrade the nginx-app release to version 13.1.8
+
+helm upgrade nginx-app bitnami/nginx --version=13.1.8 -n dev
+
+helm list -n dev
+
+7. List the running Pods
+
+k get pods -n dev
+
+8. Remove the nginx-app
+
+helm un nginx-app -n dev
+
+k get pods -n dev
+
+
+

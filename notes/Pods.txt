@@ -66,5 +66,5 @@ k get all
                              external port
 k port-forward [name of pod] 8080:80  internal port <== service better way
 k delete pod [name of pod] example k delete pod/my-nynix
-k delete deployment [name-of-deployment
+k delete deployment [name-of-deployment]
 

@@ -16,7 +16,7 @@ YAML    +  kubectl =  node-pod-container
 
 Sample of YAML file
 
-apiVersion: vi
+apiVersion: v1
 kind: Pod
 metadata:
   name: my-nginx
@@ -27,7 +27,7 @@ spec:
 
 Check the yaml file is correct
 
-k create -f file.pod.yml --dry-run --validate=true
+k create -f file.pod.yml --dry-run --validate=true <== deprecated
 k create -f file.pod.yml --dry-run=client --validate=true
 
 Deploy the pod for real

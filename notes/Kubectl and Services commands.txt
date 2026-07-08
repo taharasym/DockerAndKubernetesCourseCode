@@ -13,12 +13,20 @@ Not every image will have a curl command so you can shell into the container
 k exec [pod-name] -it -- sh
 apk add curl
 curl -s http://podIP
-
+	
 
 Service are like a gateway into pods
 
 
 k apply -f clusterIP.service.yml
+k delete services nginx-clusterip
+k get services
+k get all
+
+k get nodes
+k describe node docker-desktop
+k delete service nginx-nodeport
+
 
 
 
